@@ -1,0 +1,62 @@
+﻿@page
+@model SalesRazorPageApp.Pages.Members.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p style="display: flex;justify-content: flex-end">
+    <a asp-page="Create" class="btn btn-outline-secondary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].CompanyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].Password)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Member)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    <a class="btn btn-outline-primary" asp-page="./Edit" asp-route-id="@item.MemberId">Edit</a> |
+                    <a class="btn btn-outline-dark" asp-page="./Details" asp-route-id="@item.MemberId">Details</a> |
+                    <a class="btn btn-outline-danger" asp-page="./Delete" asp-route-id="@item.MemberId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

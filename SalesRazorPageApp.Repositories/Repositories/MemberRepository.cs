@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using SalesRazorPageApp.Repositories.Entities;
 using SalesRazorPageApp.Repositories.Interfaces;
 
@@ -16,6 +17,10 @@ namespace SalesRazorPageApp.Repositories.Repositories
             _context = context;
         }
 
-
+        public async Task<Member?> GetMemberDetailsById(int memberId)
+        {
+            return await _context.Members.Include(m => m.Orders)
+                                    .SingleOrDefaultAsync(m => m.MemberId == memberId);
+        }
     }
 }

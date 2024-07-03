@@ -8,6 +8,6 @@ namespace SalesRazorPageApp.Repositories.Interfaces
 {
     public interface IMemberRepository : IGenericRepository<Member>
     {
-       
+        Task<Member?> GetMemberDetailsById(int memberId);  
     }
 }

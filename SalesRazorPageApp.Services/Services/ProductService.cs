@@ -7,6 +7,8 @@ using SalesRazorPageApp.Repositories.Entities;
 using SalesRazorPageApp.Repositories.Interfaces;
 using SalesRazorPageApp.Services.Interfaces;
 using SalesRazorPageApp.Shared.Exceptions;
+using SalesRazorPageApp.Shared.RequestModels.Product;
+using SalesRazorPageApp.Shared.ResponseModels.Query;
 
 namespace SalesRazorPageApp.Services.Services
 {
@@ -36,6 +38,11 @@ namespace SalesRazorPageApp.Services.Services
 
             await _unitOfWork.ProductRepository.ExecuteDeleteAsync(p => p.ProductId == productId);
             await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<PagedResultResponse<Product>> GetPagedProducts(QueryPagedProductsRequest request)
+        {
+            return await _unitOfWork.ProductRepository.GetPagedProducts(request);
         }
 
         public async Task<Product> GetProductDetailsById(int productId)
