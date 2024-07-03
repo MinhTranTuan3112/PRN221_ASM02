@@ -1,0 +1,12 @@
+@page
+@model SalesRazorPageApp.Pages.CustomError
+@{
+    ViewData["Title"] = "CustomError";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h1 class="text-center">Status code: @Model.Status</h1>
+    <h1 class="text-danger text-center">An error occurred: @Model.ErrorMessage</h1>
+</div>

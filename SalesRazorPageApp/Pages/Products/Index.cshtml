@@ -1,0 +1,62 @@
+﻿@page
+@model SalesRazorPageApp.Pages.Products.IndexModel
+
+@{
+    ViewData["Title"] = "Products";
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Products</h1>
+
+<p style="display: flex;justify-content: flex-end;">
+    <button class="btn btn-outline-secondary" type="button" onclick="location.href='/products/create'">Create new</button>
+</p>
+<table class="table table-hover text-center">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Weight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].UnitPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].UnitsInStock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Product)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Weight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitsInStock)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    <a class="btn btn-outline-primary" asp-page="./Edit" asp-route-id="@item.ProductId">Edit</a> |
+                    <a class="btn btn-outline-dark" asp-page="./Details" asp-route-id="@item.ProductId">Details</a> |
+                    <a class="btn btn-outline-danger" asp-page="./Delete" asp-route-id="@item.ProductId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
