@@ -20,6 +20,7 @@ namespace SalesRazorPageApp.Services.Extensions
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IMemberService, MemberService>();
+            services.AddScoped<IOrderService, OrderService>();
             return services;
         }
     }

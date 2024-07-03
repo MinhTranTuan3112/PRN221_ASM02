@@ -14,6 +14,8 @@ namespace SalesRazorPageApp.Repositories
         private readonly Lazy<ICategoryRepository> _categoryRepository;
         
         private readonly Lazy<IMemberRepository> _memberRepository;
+        private readonly Lazy<IOrderRepository> _orderRepository;
+        private readonly Lazy<IOrderDetailRepository> _orderDetailRepository;
 
         public UnitOfWork(SalesManagementDbContext context)
         {
@@ -21,6 +23,9 @@ namespace SalesRazorPageApp.Repositories
             _productRepository = new Lazy<IProductRepository>(() => new ProductRepository(context));
             _categoryRepository = new Lazy<ICategoryRepository>(() => new CategoryRepository(context));
             _memberRepository = new Lazy<IMemberRepository>(() => new MemberRepository(context));
+            _orderRepository = new Lazy<IOrderRepository>(() => new OrderRepository(context));
+            _orderDetailRepository = new Lazy<IOrderDetailRepository>(() => new OrderDetailRepository(context));
+
         }
 
         public IProductRepository ProductRepository => _productRepository.Value;
@@ -28,6 +33,10 @@ namespace SalesRazorPageApp.Repositories
         public ICategoryRepository CategoryRepository => _categoryRepository.Value;
 
         public IMemberRepository MemberRepository => _memberRepository.Value;
+
+        public IOrderRepository OrderRepository => _orderRepository.Value;
+
+        public IOrderDetailRepository OrderDetailRepository => _orderDetailRepository.Value;
 
         public async Task<int> SaveChangesAsync()
         {

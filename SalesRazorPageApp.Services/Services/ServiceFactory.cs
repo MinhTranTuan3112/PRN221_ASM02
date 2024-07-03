@@ -13,6 +13,7 @@ namespace SalesRazorPageApp.Services.Services
         private readonly Lazy<ICategoryService> _categoryService;
         private readonly Lazy<IAuthService> _authService;
         private readonly Lazy<IMemberService> _memberService;
+        private readonly Lazy<IOrderService> _orderService;
 
         public ServiceFactory(IUnitOfWork unitOfWork)
         {
@@ -20,6 +21,7 @@ namespace SalesRazorPageApp.Services.Services
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(unitOfWork));
             _authService = new Lazy<IAuthService>(() => new AuthService(unitOfWork));
             _memberService = new Lazy<IMemberService>(() => new MemberService(unitOfWork));
+            _orderService = new Lazy<IOrderService>(() => new OrderService(unitOfWork));
         }
 
         public IProductService ProductService => _productService.Value;
@@ -29,5 +31,7 @@ namespace SalesRazorPageApp.Services.Services
         public IAuthService AuthService => _authService.Value;
 
         public IMemberService MemberService => _memberService.Value;
+
+        public IOrderService OrderService => _orderService.Value;
     }
 }

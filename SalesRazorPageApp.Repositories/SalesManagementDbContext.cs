@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using SalesRazorPageApp.Repositories.Entities;
 
 namespace SalesRazorPageApp.Repositories;
@@ -27,27 +26,14 @@ public partial class SalesManagementDbContext : DbContext
 
     public virtual DbSet<Product> Products { get; set; }
 
-    // private string GetConnectionString()
-    // {
-    //     IConfiguration configuration = new ConfigurationBuilder()
-    //             .SetBasePath(Directory.GetCurrentDirectory())
-    //             .AddJsonFile("appsettings.json", true, true).Build();
-    //     return configuration["ConnectionStrings:DefaultConnection"]!;
-
-    // }
-
-    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //     => optionsBuilder.UseSqlServer(GetConnectionString());
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__Category__19093A0BBE7C5389");
+            entity.HasKey(e => e.CategoryId).HasName("PK__Category__19093A0BF2282CAC");
 
             entity.ToTable("Category");
 
-            entity.Property(e => e.CategoryId).ValueGeneratedNever();
             entity.Property(e => e.CategoryName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -55,11 +41,10 @@ public partial class SalesManagementDbContext : DbContext
 
         modelBuilder.Entity<Member>(entity =>
         {
-            entity.HasKey(e => e.MemberId).HasName("PK__Member__0CF04B180B5D2D08");
+            entity.HasKey(e => e.MemberId).HasName("PK__Member__0CF04B18FA057514");
 
             entity.ToTable("Member");
 
-            entity.Property(e => e.MemberId).ValueGeneratedNever();
             entity.Property(e => e.City)
                 .HasMaxLength(15)
                 .IsUnicode(false);
@@ -79,17 +64,19 @@ public partial class SalesManagementDbContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Order__C3905BCFB4FE25E0");
+            entity.HasKey(e => e.OrderId).HasName("PK__Order__C3905BCF98F84897");
 
             entity.ToTable("Order");
 
-            entity.Property(e => e.OrderId).ValueGeneratedNever();
             entity.Property(e => e.Freight).HasColumnType("money");
             entity.Property(e => e.OrderDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.RequiredDate).HasColumnType("datetime");
             entity.Property(e => e.ShippedDate).HasColumnType("datetime");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.Member).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.MemberId)
@@ -99,7 +86,7 @@ public partial class SalesManagementDbContext : DbContext
 
         modelBuilder.Entity<OrderDetail>(entity =>
         {
-            entity.HasKey(e => new { e.OrderId, e.ProductId }).HasName("PK__OrderDet__08D097A3800DCABD");
+            entity.HasKey(e => new { e.OrderId, e.ProductId }).HasName("PK__OrderDet__08D097A3BE82FF5A");
 
             entity.ToTable("OrderDetail");
 
@@ -118,11 +105,10 @@ public partial class SalesManagementDbContext : DbContext
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Product__B40CC6CDF376F82E");
+            entity.HasKey(e => e.ProductId).HasName("PK__Product__B40CC6CD0F96CE6F");
 
             entity.ToTable("Product");
 
-            entity.Property(e => e.ProductId).ValueGeneratedNever();
             entity.Property(e => e.ProductName)
                 .HasMaxLength(40)
                 .IsUnicode(false);

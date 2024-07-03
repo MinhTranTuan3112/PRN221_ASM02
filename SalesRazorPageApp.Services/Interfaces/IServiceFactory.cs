@@ -14,5 +14,8 @@ namespace SalesRazorPageApp.Services.Interfaces
         IAuthService AuthService { get; }
 
         IMemberService MemberService { get; }
+
+        IOrderService OrderService { get; }
+        
     }
 }

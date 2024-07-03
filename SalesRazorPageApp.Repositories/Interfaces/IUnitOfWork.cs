@@ -12,6 +12,11 @@ namespace SalesRazorPageApp.Repositories.Interfaces
         ICategoryRepository CategoryRepository { get; }
 
         IMemberRepository MemberRepository { get; }
+        
+        IOrderRepository OrderRepository { get; }
+
+        IOrderDetailRepository OrderDetailRepository { get; }
+
         Task<int> SaveChangesAsync();
     }
 }

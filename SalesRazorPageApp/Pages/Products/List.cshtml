@@ -1,0 +1,103 @@
+@page
+@model SalesRazorPageApp.Pages.Products.List
+@{
+    ViewData["Title"] = "Products";
+    int pageNumber = Model.PageNumber;
+    int pageSize = Model.PageSize;
+
+    string actionPath = $@"/products/list?page={pageNumber}&pageSize={pageSize}";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="total_pages" hidden>@Model.PagedResult.TotalPages</div>
+<div class="current_page" hidden>@Model.PageNumber</div>
+
+<form action="@actionPath" class="input-group mb-3" style="margin-block: 10px;" method="get">
+    <span class="input-group-text" id="inputGroup-sizing-default"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+            height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path
+                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+        </svg></span>
+    <input type="text" value="@ViewBag.keyword" name="keyword" placeholder="Enter product name..."
+        class="form-control" />
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
+
+@if (Model.Products.Count > 0)
+{
+    <div class="product_list">
+        @foreach (var product in Model.Products)
+        {
+            <div class="card" style="">
+                <div class="card-body">
+                    <h5 class="card-title">@product.ProductName</h5>
+                    <p class="" style="font-size: large;">@product.UnitPrice VNĐ</p>
+                    <a href="/products/details?id=@product.ProductId" class="btn btn-outline-primary">Details</a>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p class="text-center">No products found.</p>
+
+}
+
+<nav aria-label="Page navigation example" style="margin-top: 50px;">
+    <ul class="pagination">
+        <li class="page-item prev_btn">
+            <button class="page-link" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </button>
+        </li>
+        @for (int pageCnt = 1; pageCnt <= Model.PagedResult.TotalPages; ++pageCnt)
+        {
+            @if (pageCnt == Model.PagedResult.PageNumber)
+            {
+                <li class="page-item active">
+                    <a class="page-link" href="/products/list?page=@pageCnt&keyword=@ViewBag.keyword">@pageCnt</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" href="/products/list?page=@pageCnt&keyword=@ViewBag.keyword">@pageCnt</a>
+                </li>
+
+            }
+        }
+        <li class="page-item next_btn">
+            <button class="page-link" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </button>
+        </li>
+    </ul>
+</nav>
+
+<script>
+    let prev_btn = document.querySelector('.prev_btn');
+    prev_btn.addEventListener('click', () => {
+        let total_pages = document.querySelector('.total_pages').textContent;
+        let current_page = parseInt(document.querySelector('.current_page').textContent);
+        let keyword = document.querySelector('input[name="keyword"]').value;
+        if (current_page > 1) {
+            window.location.href = `/products/list?page=${current_page - 1}&keyword=${keyword}`;
+        } else {
+            window.location.href = `/products/list?page=${total_pages}&keyword=${keyword}`
+        }
+    });
+
+    let next_btn = document.querySelector('.next_btn');
+    next_btn.addEventListener('click', () => {
+        let total_pages = document.querySelector('.total_pages').textContent;
+        let current_page = parseInt(document.querySelector('.current_page').textContent);
+        let keyword = document.querySelector('input[name="keyword"]').value;
+        if (current_page < total_pages) {
+            window.location.href = `/products/list?page=${current_page + 1}&keyword=${keyword}`;
+        } else {
+            window.location.href = `/products/list?page=1&keyword=${keyword}`
+        }
+    });
+</script>
