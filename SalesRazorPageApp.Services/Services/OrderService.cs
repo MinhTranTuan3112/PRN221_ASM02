@@ -7,6 +7,8 @@ using SalesRazorPageApp.Repositories.Interfaces;
 using SalesRazorPageApp.Services.Interfaces;
 using SalesRazorPageApp.Shared.Enums;
 using SalesRazorPageApp.Shared.Exceptions;
+using SalesRazorPageApp.Shared.RequestModels.Order;
+using SalesRazorPageApp.Shared.ResponseModels.Query;
 
 namespace SalesRazorPageApp.Services.Services
 {
@@ -87,6 +89,19 @@ namespace SalesRazorPageApp.Services.Services
             await _unitOfWork.SaveChangesAsync();
         }
 
+        public async Task DeleteOrder(int orderId)
+        {
+            if (!await _unitOfWork.OrderRepository.AnyAsync(o => o.OrderId == orderId))
+            {
+                throw new NotFoundException("Order not found");
+            }
+            
+            await _unitOfWork.OrderDetailRepository.ExecuteDeleteAsync(od => od.OrderId == orderId);
+            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.OrderRepository.ExecuteDeleteAsync(o => o.OrderId == orderId);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
         public async Task<Order> GetCartInfo(int memberId)
         {
             var order = await _unitOfWork.OrderRepository.GetCartInfo(memberId);
@@ -98,6 +113,23 @@ namespace SalesRazorPageApp.Services.Services
 
             return order;
 
+        }
+
+        public async Task<Order> GetOrderDetailsInfoById(int orderId)
+        {
+            var order = await _unitOfWork.OrderRepository.GetOrderDetailsInfoById(orderId);
+
+            if (order is null)
+            {
+                throw new NotFoundException("Order not found");
+            }
+
+            return order;
+        }
+
+        public async Task<PagedResultResponse<Order>> GetPagedOrders(QueryPagedOrderRequest request)
+        {
+            return await _unitOfWork.OrderRepository.GetPagedOrders(request);
         }
 
         public async Task UpdateCart(int orderId, int productId, int quantity)
@@ -126,6 +158,12 @@ namespace SalesRazorPageApp.Services.Services
             }
 
             await _unitOfWork.OrderRepository.UpdateOrderFreight(orderId);
+        }
+
+        public async Task UpdateOrder(Order order)
+        {
+            await _unitOfWork.OrderRepository.UpdateAsync(order);
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }
