@@ -17,14 +17,9 @@ namespace SalesRazorPageApp.Services.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Member> Login(string email, string password)
+        public async Task<Member?> Login(string email, string password)
         {
             var member = await _unitOfWork.MemberRepository.FindOneAsync(m => m.Email == email && m.Password == password);
-
-            if (member is null)
-            {
-                throw new Exception("Wrong email or password");
-            }
 
             return member;
             

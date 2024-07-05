@@ -8,6 +8,6 @@ namespace SalesRazorPageApp.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<Member> Login(string email, string password);
+        Task<Member?> Login(string email, string password);
     }
 }

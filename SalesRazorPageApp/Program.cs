@@ -26,6 +26,10 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseSession();
+
+app.MapCustomEndpoints();
+
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseRouting();

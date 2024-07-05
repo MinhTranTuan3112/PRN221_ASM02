@@ -25,5 +25,15 @@ namespace SalesRazorPageApp.Repositories.Repositories
                                     .ThenInclude(od => od.Product)
                                     .FirstOrDefaultAsync(o => o.MemberId == memberId && OrderStatus.InCart.ToString() == o.Status);
         }
+
+        public async Task UpdateOrderFreight(int orderId)
+        {
+            decimal newFreight = await _context.OrderDetails.Where(od => od.OrderId == orderId)
+                                                            .SumAsync(od => od.UnitPrice * od.Quantity);
+            await _context.Orders.Where(o => o.OrderId == orderId)
+                                .ExecuteUpdateAsync(setter => setter.SetProperty(o => o.Freight, newFreight));
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

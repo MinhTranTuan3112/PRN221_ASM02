@@ -12,6 +12,8 @@ namespace SalesRazorPageApp.Services.Interfaces
 
         Task ConfirmOrder(int orderId, int memberId);
 
+        Task UpdateCart(int orderId, int productId, int quantity);
+
         Task<Order> GetCartInfo(int memberId);
     }
 }

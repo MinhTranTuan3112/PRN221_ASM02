@@ -38,6 +38,11 @@ namespace SalesRazorPageApp.Services.Services
             await _unitOfWork.SaveChangesAsync();
         }
 
+        public async Task<Member?> GetMemberById(int memberId)
+        {
+            return await _unitOfWork.MemberRepository.FindOneAsync(m => m.MemberId == memberId);
+        }
+
         public async Task<Member> GetMemberDetailsById(int id)
         {
             var member = await _unitOfWork.MemberRepository.GetMemberDetailsById(id);

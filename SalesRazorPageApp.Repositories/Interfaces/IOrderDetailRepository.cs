@@ -8,6 +8,6 @@ namespace SalesRazorPageApp.Repositories.Interfaces
 {
     public interface IOrderDetailRepository : IGenericRepository<OrderDetail>
     {
-
+        Task<OrderDetail?> GetOrderDetailWithProduct(int orderId, int productId);
     }
 }

@@ -6,9 +6,32 @@
     int pageSize = Model.PageSize;
 
     string actionPath = $@"/products/list?page={pageNumber}&pageSize={pageSize}";
+    var memberId = HttpContext.Session.GetString("memberId");
 }
 
 <h1>@ViewData["Title"]</h1>
+
+<div class="memberId" hidden>@memberId</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add this product to cart?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-floating">
+                    <input type="number" class="form-control" name="quantity" id="cartQuantity"/>
+                    <label for="cartQuantity">Quantity</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-success confirm_add_to_cart_btn" product_id="">Add to cart</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="total_pages" hidden>@Model.PagedResult.TotalPages</div>
 <div class="current_page" hidden>@Model.PageNumber</div>
@@ -33,7 +56,12 @@
                 <div class="card-body">
                     <h5 class="card-title">@product.ProductName</h5>
                     <p class="" style="font-size: large;">@product.UnitPrice VNĐ</p>
-                    <a href="/products/details?id=@product.ProductId" class="btn btn-outline-primary">Details</a>
+                    <div class="">
+                        <a href="/products/details?id=@product.ProductId" class="btn btn-outline-primary">Details</a>
+                        <button type="button" product_id="@product.ProductId" 
+                        class="btn btn-success add_to_cart_btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Add
+                            to cart</button>
+                    </div>
                 </div>
             </div>
         }
@@ -101,3 +129,5 @@ else
         }
     });
 </script>
+
+<script src="~/js/productList.js"></script>

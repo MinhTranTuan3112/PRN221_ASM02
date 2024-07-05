@@ -18,5 +18,7 @@ namespace SalesRazorPageApp.Services.Interfaces
 
         Task DeleteMember(int memberId);
 
+        Task<Member?> GetMemberById(int memberId);
+
     }
 }

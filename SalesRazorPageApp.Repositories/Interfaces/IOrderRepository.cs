@@ -9,5 +9,7 @@ namespace SalesRazorPageApp.Repositories.Interfaces
     public interface IOrderRepository : IGenericRepository<Order>
     {
         Task<Order?> GetCartInfo(int memberId);
+
+        Task UpdateOrderFreight(int orderId);
     }
 }

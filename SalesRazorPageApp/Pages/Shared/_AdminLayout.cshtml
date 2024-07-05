@@ -1,3 +1,8 @@
+@{
+    var memberId = Context.Session.GetString("memberId");
+    var role = Context.Session.GetString("role");
+    bool isAuthenticated = !string.IsNullOrEmpty(memberId) || role == "Admin";
+}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,14 +38,24 @@
                 <a href="/products" class="admin_nav_link list-group-item list-group-item-action bg-light">Products</a>
                 <a href="/orders" class="admin_nav_link list-group-item list-group-item-action bg-light">Orders</a>
                 <a href="/members" class="admin_nav_link list-group-item list-group-item-action bg-light">Members</a>
+                @if (isAuthenticated)
+                {
+                    <a href="/signout" class="admin_nav_link list-group-item list-group-item-action bg-light">Sign Out</a>
+                }
+                else
+                {
+                    <a href="/login" class="admin_nav_link list-group-item list-group-item-action bg-light">Sign In</a>
+                }
+
                 <!-- Add more links as needed -->
             </div>
         </div>
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                <button class="btn btn-primary" style="margin-left: 10px;" id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="20"
-                        height="20" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                <button class="btn btn-primary" style="margin-left: 10px;" id="menu-toggle"><svg
+                        xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-list"
+                        viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
                             d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
                     </svg></button>

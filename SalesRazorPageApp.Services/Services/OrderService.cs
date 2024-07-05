@@ -66,18 +66,19 @@ namespace SalesRazorPageApp.Services.Services
             }
 
             order.Freight += orderDetail.UnitPrice;
-                    
+
             await _unitOfWork.SaveChangesAsync();
-            
+
         }
 
         public async Task ConfirmOrder(int orderId, int memberId)
         {
-            var order = await _unitOfWork.OrderRepository.FindOneAsync(o => o.OrderId == orderId && o.MemberId == memberId);
+            var order = await _unitOfWork.OrderRepository.FindOneAsync(o => o.OrderId == orderId && o.MemberId == memberId
+            && o.Status == OrderStatus.InCart.ToString());
 
             if (order is null)
             {
-                throw new NotFoundException("Order not found");                
+                throw new NotFoundException("Order not found");
             }
 
             order.Status = OrderStatus.Pending.ToString();
@@ -97,6 +98,34 @@ namespace SalesRazorPageApp.Services.Services
 
             return order;
 
+        }
+
+        public async Task UpdateCart(int orderId, int productId, int quantity)
+        {
+            var order = await _unitOfWork.OrderRepository.FindOneAsync(o => o.OrderId == orderId && o.Status == OrderStatus.InCart.ToString());
+            if (order is null)
+            {
+                throw new NotFoundException("Order not found");
+            }
+
+            var orderDetail = await _unitOfWork.OrderDetailRepository.GetOrderDetailWithProduct(orderId, productId);
+
+            if (orderDetail is not null)
+            {
+                if (quantity == 0)
+                {
+                    await _unitOfWork.OrderDetailRepository.ExecuteDeleteAsync(od => od.OrderId == orderId && od.ProductId == productId);
+                }
+                else
+                {
+                    orderDetail.Quantity = quantity;
+                    orderDetail.UnitPrice = orderDetail.Product.UnitPrice * quantity;
+                }
+
+                await _unitOfWork.SaveChangesAsync();
+            }
+
+            await _unitOfWork.OrderRepository.UpdateOrderFreight(orderId);
         }
     }
 }
