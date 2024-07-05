@@ -1,0 +1,146 @@
+﻿@page
+@model SalesRazorPageApp.Pages.Orders.IndexModel
+
+@{
+    ViewData["Title"] = "Orders";
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+
+    int pageNumber = Model.PageNumber;
+    int pageSize = Model.PageSize;
+    string actionPath = $@"/orders?page={pageNumber}&pageSize={pageSize}";
+}
+
+<h1>Orders</h1>
+
+<p style="display: flex;justify-content: flex-end;">
+    <button class="btn btn-outline-secondary" type="button" onclick="location.href='/orders/create'">Create
+        new</button>
+</p>
+
+<form action="@actionPath" class=" mb-3" style="margin-block: 10px;" method="get">
+    <div class="" style="display: flex;justify-content: space-between;width: 100%;
+    max-width: 50%;">
+        <div class="form-floating mb-3">
+            <input type="datetime-local" class="form-control" name="startDate" id="startDate" placeholder="Start date">
+            <label for="startDate">Start Date</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="datetime-local" class="form-control" name="endDate" id="endDate" placeholder="End date">
+            <label for="endDate">End Date</label>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-outline-primary">Search</button>
+</form>
+
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].OrderDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].RequiredDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].ShippedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Freight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Member)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Order)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequiredDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShippedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Freight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Member.Email)
+                </td>
+                <td>
+                    <a class="btn btn-outline-primary" asp-page="./Edit" asp-route-id="@item.OrderId">Edit</a> |
+                    <a class="btn btn-outline-dark" asp-page="./Details" asp-route-id="@item.OrderId">Details</a> |
+                    <a class="btn btn-outline-danger" asp-page="./Delete" asp-route-id="@item.OrderId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation example" style="margin-top: 50px;">
+    <ul class="pagination">
+        <li class="page-item prev_btn">
+            <button class="page-link" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </button>
+        </li>
+        @for (int pageCnt = 1; pageCnt <= Model.PagedResult.TotalPages; ++pageCnt)
+        {
+            @if (pageCnt == Model.PagedResult.PageNumber)
+            {
+                <li class="page-item active">
+                    <a class="page-link" href="/orders?page=@pageCnt">@pageCnt</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" href="/orders?page=@pageCnt">@pageCnt</a>
+                </li>
+
+            }
+        }
+        <li class="page-item next_btn">
+            <button class="page-link" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </button>
+        </li>
+    </ul>
+</nav>
+
+<script>
+    let prev_btn = document.querySelector('.prev_btn');
+    prev_btn.addEventListener('click', () => {
+        let total_pages = document.querySelector('.total_pages').textContent;
+        let current_page = parseInt(document.querySelector('.current_page').textContent);
+        if (current_page > 1) {
+            window.location.href = `/orders?page=${current_page - 1}`;
+        } else {
+            window.location.href = `/orders?page=${total_pages}`
+        }
+    });
+
+    let next_btn = document.querySelector('.next_btn');
+    next_btn.addEventListener('click', () => {
+        let total_pages = document.querySelector('.total_pages').textContent;
+        let current_page = parseInt(document.querySelector('.current_page').textContent);
+        if (current_page < total_pages) {
+            window.location.href = `/orders?page=${current_page + 1}`;
+        } else {
+            window.location.href = `/orders?page=1`
+        }
+    });
+</script>
