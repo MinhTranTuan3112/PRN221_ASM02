@@ -34,13 +34,22 @@ namespace SalesRazorPageApp.Pages.Orders
 
         public async Task OnGetAsync(DateTime? startDate, DateTime? endDate)
         {
-            PagedResult = await _serviceFactory.OrderService.GetPagedOrders(new QueryPagedOrderRequest
+
+            var request = new QueryPagedOrderRequest
             {
                 PageNumber = PageNumber,
                 PageSize = PageSize,
                 StartDate = startDate,
                 EndDate = endDate
-            });
+            };
+
+            var memberId = HttpContext.Session.GetString("memberId");
+            if (!string.IsNullOrEmpty(memberId))
+            {
+                request.MemberId = Convert.ToInt32(memberId);
+            }
+
+            PagedResult = await _serviceFactory.OrderService.GetPagedOrders(request);
 
             Order = PagedResult.Items;
         }

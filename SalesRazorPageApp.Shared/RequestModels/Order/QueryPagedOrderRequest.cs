@@ -19,5 +19,8 @@ namespace SalesRazorPageApp.Shared.RequestModels.Order
 
         [FromQuery(Name = "endDate")]
         public DateTime? EndDate { get; set; }
+
+        [FromQuery(Name = "memberId")]
+        public int? MemberId { get; set; }
     }
 }

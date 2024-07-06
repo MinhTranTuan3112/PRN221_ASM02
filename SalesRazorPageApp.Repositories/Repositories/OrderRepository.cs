@@ -44,6 +44,11 @@ namespace SalesRazorPageApp.Repositories.Repositories
                             .Include(o => o.Member)
                             .AsQueryable();
 
+            if (request.MemberId.HasValue)
+            {
+                query = query.Where(o => o.MemberId == request.MemberId.Value);
+            }
+
             if (request.StartDate.HasValue)
             {
                 query = query.Where(o => o.OrderDate >= request.StartDate);
