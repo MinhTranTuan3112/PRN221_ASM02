@@ -1,7 +1,6 @@
 - Họ và tên : Trần Tuấn Minh
 - Số điện thoại : 0989888806
 - MSSV : SE172842
-- Điểm tự đánh giá : 7
-- Link youtube: 
-- Link google drive: 
-- Link GitHub: 
+- Điểm tự đánh giá : 6
+- Link google drive: https://drive.google.com/file/d/1WFoLoUwifhXY_I5DjF_qVMGrlINStKh1/view?usp=drive_link
+- Link GitHub: https://github.com/MinhTranTuan3112/PRN221_ASM02
