@@ -8,6 +8,7 @@ using SalesRazorPageApp.Repositories.Extensions;
 using SalesRazorPageApp.Repositories.Interfaces;
 using SalesRazorPageApp.Shared.Enums;
 using SalesRazorPageApp.Shared.RequestModels.Order;
+using SalesRazorPageApp.Shared.ResponseModels;
 using SalesRazorPageApp.Shared.ResponseModels.Query;
 
 namespace SalesRazorPageApp.Repositories.Repositories
@@ -55,6 +56,25 @@ namespace SalesRazorPageApp.Repositories.Repositories
 
 
             return await query.ToPagedResponseAsync(request.PageNumber, request.PageSize);
+        }
+
+        public async Task<List<StatResponse>> GetStats(int? year = default)
+        {
+            year ??= DateTime.Now.Year;
+            
+            var monthlyStatistics = await _context.Orders
+                                                .AsNoTracking()
+                                                .Where(o => o.OrderDate.Year == year && o.Status != OrderStatus.InCart.ToString())
+                                                .GroupBy(o => new { o.OrderDate.Year, o.OrderDate.Month })
+                                                .Select(g => new StatResponse
+                                                {
+                                                    Year = g.Key.Year,
+                                                    Month = g.Key.Month,
+                                                    TotalSales = g.Sum(o => o.Freight ?? 0)
+                                                })
+                                                .ToListAsync();
+
+            return monthlyStatistics;
         }
 
         public async Task UpdateOrderFreight(int orderId)

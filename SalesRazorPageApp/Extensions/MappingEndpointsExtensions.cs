@@ -19,6 +19,11 @@ namespace SalesRazorPageApp.Extensions
                 return order;
             });
 
+            app.MapGet("api/stats", async (IOrderService _orderService) =>
+            {
+                return await _orderService.GetStats();
+            });
+
             app.MapPost("/api/orders/add-to-cart", async (IOrderService _orderService,
             [FromBody] AddToCartRequest request) =>
             {
@@ -31,7 +36,7 @@ namespace SalesRazorPageApp.Extensions
             [FromRoute] int orderId, [FromRoute] int memberId) =>
             {
                 await _orderService.ConfirmOrder(orderId, memberId);
-                
+
                 return Results.Ok();
             });
 

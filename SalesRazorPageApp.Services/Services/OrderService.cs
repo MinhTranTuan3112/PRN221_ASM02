@@ -8,6 +8,7 @@ using SalesRazorPageApp.Services.Interfaces;
 using SalesRazorPageApp.Shared.Enums;
 using SalesRazorPageApp.Shared.Exceptions;
 using SalesRazorPageApp.Shared.RequestModels.Order;
+using SalesRazorPageApp.Shared.ResponseModels;
 using SalesRazorPageApp.Shared.ResponseModels.Query;
 
 namespace SalesRazorPageApp.Services.Services
@@ -130,6 +131,11 @@ namespace SalesRazorPageApp.Services.Services
         public async Task<PagedResultResponse<Order>> GetPagedOrders(QueryPagedOrderRequest request)
         {
             return await _unitOfWork.OrderRepository.GetPagedOrders(request);
+        }
+
+        public async Task<List<StatResponse>> GetStats(int? year = null)
+        {
+            return await _unitOfWork.OrderRepository.GetStats(year);
         }
 
         public async Task UpdateCart(int orderId, int productId, int quantity)

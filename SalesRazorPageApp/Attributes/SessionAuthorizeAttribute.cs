@@ -27,6 +27,7 @@ namespace SalesRazorPageApp.Attributes
 
             if (role == Role.Admin.ToString() && (Roles.Contains(Role.Admin.ToString()) || Roles is []))
             {
+                //Successfully authorized
                 return;
             }
 

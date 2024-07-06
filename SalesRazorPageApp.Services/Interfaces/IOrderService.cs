@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SalesRazorPageApp.Repositories.Entities;
 using SalesRazorPageApp.Shared.RequestModels.Order;
+using SalesRazorPageApp.Shared.ResponseModels;
 using SalesRazorPageApp.Shared.ResponseModels.Query;
 
 namespace SalesRazorPageApp.Services.Interfaces
@@ -25,5 +26,7 @@ namespace SalesRazorPageApp.Services.Interfaces
         Task UpdateOrder(Order order);
 
         Task DeleteOrder(int orderId);
+
+        Task<List<StatResponse>> GetStats(int? year = default);
     }
 }
