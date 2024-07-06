@@ -22,16 +22,33 @@
             new</button>
     </p>
 
-    <form action="@actionPath" class="input-group mb-3" style="margin-block: 10px;" method="get">
-        <span class="input-group-text" id="inputGroup-sizing-default"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                <path
-                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-            </svg></span>
-        <input type="text" value="@ViewBag.keyword" name="keyword" placeholder="Enter product name..."
-            class="form-control" />
-        <button class="btn btn-primary" type="submit">Search</button>
+    <form action="@actionPath" class="" style="margin-block: 10px;" method="get">
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                    height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                </svg></span>
+            <input type="text" value="@TempData["Keyword"]" name="keyword" placeholder="Enter product name..."
+                class="form-control" />
+        </div>
+        
+        <br/>
+        <div class="" style="width: 30%;">
+            <div class="form-floating mb-3">
+                <input type="number" class="form-control" name="startPrice" value="@TempData["startPrice"]" id="startPrice" placeholder="Start price">
+                <label for="startPrice">Start price</label>
+            </div>
+            <div class="form-floating">
+                <input type="number" class="form-control" name="endPrice" value="@TempData["endPrice"]" id="endPrice" placeholder="End price">
+                <label for="endPrice">End price</label>
+            </div>
+        </div>
+
+        <button class="btn btn-primary mt-2" type="submit">Search</button>
     </form>
+
+    <a href="/products">Clear filter</a>
 
     <table class="table table-hover text-center">
         <thead>
@@ -95,13 +112,13 @@
                 @if (pageCnt == Model.PagedResult.PageNumber)
                 {
                     <li class="page-item active">
-                        <a class="page-link" href="/products?page=@pageCnt&keyword=@ViewBag.keyword">@pageCnt</a>
+                        <a class="page-link" href="/products?page=@pageCnt&keyword=@TempData["Keyword"]">@pageCnt</a>
                     </li>
                 }
                 else
                 {
                     <li class="page-item">
-                        <a class="page-link" href="/products?page=@pageCnt&keyword=@ViewBag.keyword">@pageCnt</a>
+                        <a class="page-link" href="/products?page=@pageCnt&keyword=@TempData["Keyword"]">@pageCnt</a>
                     </li>
 
                 }
@@ -122,10 +139,12 @@
         let total_pages = document.querySelector('.total_pages').textContent;
         let current_page = parseInt(document.querySelector('.current_page').textContent);
         let keyword = document.querySelector('input[name="keyword"]').value;
+        let startPrice = document.querySelector('input[name="startPrice"]').value;
+        let endPrice = document.querySelector('input[name="endPrice"]').value;
         if (current_page > 1) {
-            window.location.href = `/products?page=${current_page - 1}&keyword=${keyword}`;
+            window.location.href = `/products?page=${current_page - 1}&keyword=${keyword}&startPrice=${startPrice}&endPrice=${endPrice}`;
         } else {
-            window.location.href = `/products?page=${total_pages}&keyword=${keyword}`
+            window.location.href = `/products?page=${total_pages}&keyword=${keyword}&startPrice=${startPrice}&endPrice=${endPrice}`
         }
     });
 
@@ -134,10 +153,12 @@
         let total_pages = document.querySelector('.total_pages').textContent;
         let current_page = parseInt(document.querySelector('.current_page').textContent);
         let keyword = document.querySelector('input[name="keyword"]').value;
+        let startPrice = document.querySelector('input[name="startPrice"]').value;
+        let endPrice = document.querySelector('input[name="endPrice"]').value;
         if (current_page < total_pages) {
-            window.location.href = `/products?page=${current_page + 1}&keyword=${keyword}`;
+            window.location.href = `/products?page=${current_page + 1}&keyword=${keyword}&startPrice=${startPrice}&endPrice=${endPrice}`;
         } else {
-            window.location.href = `/products?page=1&keyword=${keyword}`
+            window.location.href = `/products?page=1&keyword=${keyword}&startPrice=${startPrice}&endPrice=${endPrice}`
         }
     });
 </script>

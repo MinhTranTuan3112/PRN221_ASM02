@@ -94,7 +94,9 @@ const refreshCarts = async () => {
         let cartContent = document.querySelector('.cart_content');
         cartContent.innerHTML = '';
 
-        if (data.order.orderDetails == []) {
+        if (data.order.orderDetails === null || data.order.orderDetails.length === 0
+            || data.order.orderDetails === undefined
+        ) {
             let row = document.createElement('tr');
             row.textContent = 'The cart is empty';
             cartContent.appendChild(row);
@@ -151,7 +153,7 @@ const refreshCarts = async () => {
 
         });
 
-        document.querySelector('.order_total').textContent = `$${data.order.freight}`;
+        document.querySelector('.order_total_content').textContent = `$${data.order.freight}`;
 
 
     } catch (error) {

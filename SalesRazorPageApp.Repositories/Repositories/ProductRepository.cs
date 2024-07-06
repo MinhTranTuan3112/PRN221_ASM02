@@ -27,6 +27,18 @@ namespace SalesRazorPageApp.Repositories.Repositories
             {
                 query = query.Where(p => p.ProductName.ToLower().Contains(request.Keyword.ToLower()));
             }
+
+            if (request.StartPrice.HasValue)
+            {
+                query = query.Where(p => p.UnitPrice >= request.StartPrice);
+            }
+            
+            if (request.EndPrice.HasValue)
+            {
+                query = query.Where(p => p.UnitPrice <= request.EndPrice);
+            }
+            
+            query = query.OrderBy(p => p.ProductId);
             
             return await query.ToPagedResponseAsync(request.PageNumber, request.PageSize);   
         }

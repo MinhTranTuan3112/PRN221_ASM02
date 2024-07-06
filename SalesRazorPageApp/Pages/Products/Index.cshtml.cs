@@ -35,13 +35,19 @@ namespace SalesRazorPageApp.Pages.Products
 
         public PagedResultResponse<Product> PagedResult { get; set; } = default!;
 
-        public async Task OnGetAsync(string keyword = "")
+        public async Task OnGetAsync(string keyword = "", decimal? startPrice = default, decimal? endPrice = default)
         {
+            TempData["Keyword"] = keyword;
+            TempData["StartPrice"] = startPrice.HasValue ? startPrice.ToString() : string.Empty;
+            TempData["EndPrice"] = endPrice.HasValue ? endPrice.ToString() : string.Empty;
+
             PagedResult = await _serviceFactory.ProductService.GetPagedProducts(new QueryPagedProductsRequest
             {
                 PageNumber = PageNumber,
                 PageSize = PageSize,
-                Keyword = keyword
+                Keyword = keyword,
+                StartPrice = startPrice,
+                EndPrice = endPrice
             });
 
             Product = PagedResult.Items;

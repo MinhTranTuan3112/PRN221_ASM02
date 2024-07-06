@@ -16,5 +16,11 @@ namespace SalesRazorPageApp.Shared.RequestModels.Product
 
         [FromQuery(Name = "keyword")]
         public string Keyword { get; set; } = string.Empty;
+
+        [FromQuery(Name = "startPrice")]
+        public decimal? StartPrice { get; set; }
+
+        [FromQuery(Name = "endPrice")]
+        public decimal? EndPrice { get; set; }
     }
 }

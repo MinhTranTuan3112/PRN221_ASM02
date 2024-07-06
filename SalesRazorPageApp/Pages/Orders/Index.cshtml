@@ -4,7 +4,11 @@
 
 @{
     ViewData["Title"] = "Orders";
-    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    var role = HttpContext.Session.GetString("role");
+    @if (role == "Admin")
+    {
+        Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    }
 
     int pageNumber = Model.PageNumber;
     int pageSize = Model.PageSize;
