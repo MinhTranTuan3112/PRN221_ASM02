@@ -7,10 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="BusinessModels\**" />
+    <Compile Remove="RequestModels\**" />
+    <Compile Remove="ResponseModels\**" />
+    <EmbeddedResource Remove="BusinessModels\**" />
+    <EmbeddedResource Remove="RequestModels\**" />
+    <EmbeddedResource Remove="ResponseModels\**" />
+    <None Remove="BusinessModels\**" />
+    <None Remove="RequestModels\**" />
+    <None Remove="ResponseModels\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Interfaces\" />
-    <Folder Include="BusinessModels\" />
-    <Folder Include="ResponseModels\" />
-    <Folder Include="RequestModels\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
